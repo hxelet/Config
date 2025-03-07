@@ -8,6 +8,9 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'tinted-theming/tinted-vim'
 Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -17,6 +20,7 @@ filetype plugin indent on    " required
 syntax on
 set hlsearch
 let mapleader=','
+set wildignore=.git,.next,node_modules,__pycache__,.build,.cache,compile_commands.json,*.db,*.o
 
 "
 " Colours
@@ -33,10 +37,30 @@ endif
 " Nerdtree
 "
 map <leader><Space> :NERDTreeToggle<CR>
+let g:NERDTreeQuitOnOpen=1
+let g:NERDTreeMinimalUI=1
+let g:NERDTreeRespectWildIgnore=1
+let g:NERDTreeShowHidden=1
+let g:NERDTreeMapOpenExpl=''
+let g:NERDTreeMapOpenSplit=''
+let g:NERDTreeMapOpenVSplit=''
+let g:NERDTreeMenuUp='s'
+let g:NERDTreeMenuDown='r'
+let g:NERDTreeMapRefresh='a'
+let g:NERDTreeMapCustomOpen='t'
+" Start NERDTree when Vim is started without file arguments.
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
+
+"
+" Airline
+"
+let g:airline#extensions#tabline#enabled = 1
 
 "
 " Mapping
 "
+" colemak
 noremap a h
 noremap A b
 noremap r j
@@ -47,12 +71,22 @@ noremap T w
 noremap e a
 noremap E A
 noremap O R
+" Window
 map <leader>q :wqall<CR>
 imap <leader>q <C-[>:wqall<CR>
 map <leader>w :w<CR>
 imap <leader>w <C-o>:w<CR>
+map <leader>C <C-w>c
+imap <leader>C <C-w>c
 " Folding
 map <leader>f za
 imap <leader>f <C-o>za
 map <leader>F zR
 imap <leader>F <C-o>zR
+" Buffer
+map <leader>c :bd<CR>
+imap <leader>c <C-[>:bd<CR>
+map <leader>h :bprevious<CR>
+imap <leader>h <C-o>:bprevious<CR>
+map <leader>. :bnext<CR>
+imap <leader>. <C-o>:bnext<CR>
