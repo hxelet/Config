@@ -29,7 +29,7 @@ autocmd FileType cpp setlocal noexpandtab cc=80
 autocmd FileType make setlocal noexpandtab cc=80
 autocmd BufRead,BufNewFIle *.S setlocal filetype=asm
 autocmd BufRead,BufNewFIle *.s setlocal filetype=asm
-autocmd TextChanged,InsertLeave * silent write
+set autowriteall
 
 
 "
@@ -46,7 +46,7 @@ endif
 "
 " Nerdtree
 "
-map <leader><Space> :NERDTreeToggle<CR>
+map <leader><Space> :w<bar>NERDTreeToggle<CR>
 let g:NERDTreeQuitOnOpen=1
 let g:NERDTreeMinimalUI=1
 let g:NERDTreeRespectWildIgnore=1
