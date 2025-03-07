@@ -75,6 +75,17 @@ autocmd BufEnter * if winnr() == winnr('h') && bufname('#') =~ 'NERD_tree_\d\+' 
 let g:airline#extensions#tabline#enabled = 1
 
 "
+" YCM
+"
+map <leader>a :YcmCompleter GoToAlternateFile<CR>
+imap <leader>A <C-o>:YcmCompleter GoToAlternateFile<CR>
+map <leader>r :YcmCompleter GoToReferences<CR>
+imap <leader>r <C-o>:YcmCompleter GoToReferences<CR>
+let g:ycm_autoclose_preview_window_after_completion = 1
+
+
+
+"
 " Mapping
 "
 " colemak

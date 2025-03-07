@@ -23,7 +23,7 @@ update() {
 
 	~/.tmux/plugins/tpm/bin/update_plugins all
 
-	#python3 ~/.vim/bundle/youcompleteme/install.py --clangd-completer --ts-completer --quiet
+	python3 ~/.vim/bundle/youcompleteme/install.py --clangd-completer --ts-completer --quiet
 
 	omz update
 
