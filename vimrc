@@ -14,6 +14,7 @@ Plugin 'vim-airline/vim-airline-themes'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
+
 "
 " Defaults
 "
@@ -21,6 +22,15 @@ syntax on
 set hlsearch
 let mapleader=','
 set wildignore=.git,.next,node_modules,__pycache__,.build,.cache,compile_commands.json,*.db,*.o
+autocmd FileType * setlocal ts=2 sts=2 sw=2 expandtab smartindent cindent
+autocmd FileType markdown setlocal spell spelllang=en,cjk
+autocmd FileType c setlocal noexpandtab cc=80
+autocmd FileType cpp setlocal noexpandtab cc=80
+autocmd FileType make setlocal noexpandtab cc=80
+autocmd BufRead,BufNewFIle *.S setlocal filetype=asm
+autocmd BufRead,BufNewFIle *.s setlocal filetype=asm
+autocmd TextChanged,InsertLeave * silent write
+
 
 "
 " Colours
@@ -90,3 +100,29 @@ map <leader>h :bprevious<CR>
 imap <leader>h <C-o>:bprevious<CR>
 map <leader>. :bnext<CR>
 imap <leader>. <C-o>:bnext<CR>
+" Cursor
+map <leader><Left> <C-w>h
+imap <leader><Left> <C-w>h
+map <leader><Right> <C-w>l
+imap <leader><Right> <C-w>l
+map <leader><Up> <C-w>k
+imap <leader><Up> <C-w>k
+map <leader><Down> <C-w>j
+imap <leader><Down> <C-w>j
+map <PageUp> <C-u>
+map <PageDown> <C-d>
+" Sizing
+map <leader>+ <C-w>5+
+imap <leader>+ <C-w>5+
+map <leader>- <C-w>5-
+imap <leader>- <C-w>5-
+map <leader>< <C-w>5<
+imap <leader>< <C-w>5<
+map <leader>> <C-w>5>
+imap <leader>> <C-w>5>
+map <leader>= <C-w>=
+imap <leader>= <C-w>=
+map <leader>_ <c-w>_
+imap <leader>_ <c-w>_
+map <leader>\| <c-w>\|
+imap <leader>\| <c-w>\|
