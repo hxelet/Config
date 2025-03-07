@@ -31,6 +31,8 @@ autocmd FileType make setlocal noexpandtab cc=80
 autocmd BufRead,BufNewFIle *.S setlocal filetype=asm
 autocmd BufRead,BufNewFIle *.s setlocal filetype=asm
 set autowriteall
+set noswapfile
+autocmd BufLeave * if &filetype != 'nerdtree' && &modifiable && argc() != 0 | silent! w | endif
 
 
 "
@@ -47,7 +49,7 @@ endif
 "
 " Nerdtree
 "
-map <leader><Space> :w<bar>NERDTreeToggle<CR>
+map <leader><Space> :NERDTreeToggle<CR>
 let g:NERDTreeQuitOnOpen=1
 let g:NERDTreeMinimalUI=1
 let g:NERDTreeRespectWildIgnore=1
