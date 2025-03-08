@@ -21,6 +21,7 @@ filetype plugin indent on    " required
 "
 syntax on
 set hlsearch
+set incsearch
 let mapleader=','
 set wildignore=.git,.next,node_modules,__pycache__,.build,.cache,compile_commands.json,*.db,*.o
 autocmd FileType * setlocal ts=2 sts=2 sw=2 expandtab smartindent cindent
@@ -33,6 +34,7 @@ autocmd BufRead,BufNewFIle *.s setlocal filetype=asm
 set autowriteall
 set noswapfile
 autocmd BufLeave * if &filetype != 'nerdtree' && &modifiable && argc() != 0 | silent! w | endif
+set backspace=indent,eol,start
 
 
 "
@@ -73,6 +75,7 @@ autocmd BufEnter * if winnr() == winnr('h') && bufname('#') =~ 'NERD_tree_\d\+' 
 " Airline
 "
 let g:airline#extensions#tabline#enabled = 1
+
 
 "
 " YCM
