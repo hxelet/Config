@@ -35,6 +35,57 @@ set autowriteall
 set noswapfile
 autocmd BufLeave * if &filetype != 'nerdtree' && &modifiable && argc() != 0 | silent! w | endif
 set backspace=indent,eol,start
+set encoding=utf-8
+
+
+"
+" Lists
+"
+let g:location_list_open = 0
+let g:quickfix_list_open = 0
+function! ToggleList(pfx)
+  if a:pfx == 'l'
+    if g:location_list_open
+      lclose
+      let g:location_list_open = 0
+    else
+      lopen
+      wincmd J
+      8wincmd _
+      wincmd p
+      let g:location_list_open = 1
+    endif
+  elseif a:pfx == 'c'
+    if g:quickfix_list_open
+      cclose
+      let g:quickfix_list_open = 0
+    else
+      copen
+      wincmd K
+      8wincmd _
+      wincmd p
+      let g:quickfix_list_open = 1
+    endif
+  endif
+endfunction
+map <leader>l :call ToggleList('c')<CR>
+imap <leader>l <C-o>:call ToggleList('c')<CR>
+map <leader>L :call ToggleList('l')<CR>
+imap <leader>L <C-o>:call ToggleList('l')<CR>
+
+function! LocationListHandler()
+  let l:is_empty = empty(getloclist(0))
+  if l:is_empty && g:location_list_open
+    lclose
+    let g:location_list_open = 0
+  elseif !l:is_empty && !g:location_list_open
+    lopen
+    8wincmd _
+    wincmd p
+    let g:location_list_open = 1
+  endif
+endfunction
+autocmd CursorHold,CursorHoldI * call LocationListHandler()
 
 
 "
@@ -84,24 +135,14 @@ map <leader>a :YcmCompleter GoToAlternateFile<CR>
 imap <leader>A <C-o>:YcmCompleter GoToAlternateFile<CR>
 map <leader>r :YcmCompleter GoToReferences<CR>
 imap <leader>r <C-o>:YcmCompleter GoToReferences<CR>
+map <leader>g :YcmCompleter GoTo<CR>
+imap <leader>g <C-o>:YcmCompleter GoTo<CR>
+map <leader>o <Plug>(YCMFindSymbolInWorkspace)
+imap <leader>o <C-o><Plug>(YCMFindSymbolInWorkspace)
 let g:ycm_autoclose_preview_window_after_completion = 1
 " Auto location list
 let g:ycm_always_populate_location_list = 1
 set updatetime=500
-let g:hx_location_list_open = 0
-function! HxLocationListHandler()
-  let l:is_empty = empty(getloclist(0))
-  if l:is_empty && g:hx_location_list_open
-    lclose
-    let g:hx_location_list_open = 0
-  elseif !l:is_empty && !g:hx_location_list_open
-    lopen
-    wincmd p
-    let g:hx_location_list_open = 1
-  endif
-endfunction
-autocmd CursorHold,CursorHoldI * call HxLocationListHandler()
-
 
 
 "
@@ -125,6 +166,10 @@ map <leader>w :w<CR>
 imap <leader>w <C-o>:w<CR>
 map <leader>C <C-w>c
 imap <leader>C <C-w>c
+map <leader>s :split<CR>
+imap <leader>s <C-o>:split<CR>
+map <leader>S :vsplit<CR>
+imap <leader>S <C-o>:vsplit<CR>
 " Folding
 map <leader>f za
 imap <leader>f <C-o>za
@@ -163,3 +208,12 @@ map <leader>_ <c-w>_
 imap <leader>_ <c-w>_
 map <leader>\| <c-w>\|
 imap <leader>\| <c-w>\|
+" Etc
+map <leader>m :noh<CR>
+imap <leader>m <C-o>:noh<CR>
+map <leader>n :cn<CR>
+imap <leader>n <C-o>:cn<CR>
+map <leader>p :cp<CR>
+imap <leader>p <C-o>:cp<CR>
+map <leader>z <C-o>
+imap <leader>z <C-o><C-o>
