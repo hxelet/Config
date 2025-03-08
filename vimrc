@@ -85,6 +85,22 @@ imap <leader>A <C-o>:YcmCompleter GoToAlternateFile<CR>
 map <leader>r :YcmCompleter GoToReferences<CR>
 imap <leader>r <C-o>:YcmCompleter GoToReferences<CR>
 let g:ycm_autoclose_preview_window_after_completion = 1
+" Auto location list
+let g:ycm_always_populate_location_list = 1
+set updatetime=500
+let g:hx_location_list_open = 0
+function! HxLocationListHandler()
+  let l:is_empty = empty(getloclist(0))
+  if l:is_empty && g:hx_location_list_open
+    lclose
+    let g:hx_location_list_open = 0
+  elseif !l:is_empty && !g:hx_location_list_open
+    lopen
+    wincmd p
+    let g:hx_location_list_open = 1
+  endif
+endfunction
+autocmd CursorHold,CursorHoldI * call HxLocationListHandler()
 
 
 
