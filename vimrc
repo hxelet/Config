@@ -12,6 +12,7 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tpope/vim-surround'
 Plugin 'ycm-core/YouCompleteMe'
+Plugin 'sheerun/vim-polyglot'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -32,10 +33,8 @@ autocmd FileType make setlocal noexpandtab cc=80
 autocmd BufRead,BufNewFIle *.S setlocal filetype=asm
 autocmd BufRead,BufNewFIle *.s setlocal filetype=asm
 set autowriteall
-set noswapfile
 autocmd BufLeave * if &filetype != 'nerdtree' && &modifiable && argc() != 0 | silent! w | endif
 set backspace=indent,eol,start
-set encoding=utf-8
 
 
 "
@@ -142,7 +141,6 @@ imap <leader>o <C-o><Plug>(YCMFindSymbolInWorkspace)
 let g:ycm_autoclose_preview_window_after_completion = 1
 " Auto location list
 let g:ycm_always_populate_location_list = 1
-set updatetime=500
 
 
 "
