@@ -125,6 +125,9 @@ autocmd BufEnter * if winnr() == winnr('h') && bufname('#') =~ 'NERD_tree_\d\+' 
 " Airline
 "
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#ycm#enabled = 1
+let g:airline_section_y = ''
+let g:airline_section_z = '%p%% %l/%L %v'
 
 
 "
