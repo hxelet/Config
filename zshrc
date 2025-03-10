@@ -1,11 +1,10 @@
 ## Path
 CONFIG_PATH=$HOME/.config
-PATH="$HOME/.local/bin:/opt/homebrew/opt/macos-trash/bin:$PATH"
-eval "$(/opt/homebrew/bin/brew shellenv)"
+PATH="$HOME/.local/bin:$PATH"
 
 ## OMZ
 export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="simple"
+ZSH_THEME='simple'
 plugins=(git tmux tinted-shell)
 ZSH_TMUX_AUTOSTART=true
 ZSH_TMUX_FIXTERM_WITH_256COLOR=tmux-256color
@@ -14,21 +13,23 @@ source $ZSH/oh-my-zsh.sh
 ## Alias
 alias rm='trash'
 cd() { builtin cd "$@"; ll; }
+alias pacman='sudo pacman'
+alias svi='sudo vim'
+alias systemctl='sudo systemctl'
+alias journalctl='sudo journalctl'
 
 update() {
-	brew update
-	brew upgrade
+  pacman --noconfirm -Syu
+  pacman --noconfirm -Qdtq | ifne sudo pacman -Rns -
+  yay -Sua
 
-	vim -E +PluginUpdate +qall
+  vim -E +PluginUpdate +qall
 
-	~/.tmux/plugins/tpm/bin/update_plugins all
+  ~/.tmux/plugins/tpm/bin/update_plugins all
 
-	python3 ~/.vim/bundle/youcompleteme/install.py --clangd-completer --ts-completer --quiet
+  python ~/.vim/bundle/YouCompleteMe/install.py --clangd-completer --ts-completer --quiet
 
-	omz update
-
-	command rm -f ~/.zcompdump
-	compinit
+  omz update
 }
 
 keebuild() {
@@ -38,12 +39,24 @@ keebuild() {
   pushd $QMK_PATH
   git pull
   command cp -a $CONFIG_PATH/keymap $KEYMAP_PATH
-  docker run --rm -it --privileged -v /dev:/dev -w /qmk_firmware -v $QMK_PATH:/qmk_firmware:z ghcr.io/qmk/qmk_cli make keyboardio/atreus:hxelet
+  sudo qmk flash -kb keyboardio/atreus -km hxelet
   command rm -rf $KEYMAP_PATH
-  command mv $QMK_PATH/*.hex ~/Downloads
   popd
 }
 
 keebedit() {
   vi $CONFIG_PATH/keymap
+}
+
+mkvenv() {
+  python -m venv $CONFIG_PATH/venv/$1
+  source $CONFIG_PATH/venv/$1/bin/activate
+}
+
+venv() {
+  source $CONFIG_PATH/venv/$1/bin/activate
+}
+
+x() {
+  echo $(($1))
 }
