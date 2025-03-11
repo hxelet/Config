@@ -24,7 +24,7 @@ syntax on
 set hlsearch
 set incsearch
 let mapleader=','
-set wildignore=.git,.next,node_modules,__pycache__,.build,.cache,compile_commands.json,*.db,*.o
+set wildignore=.git,.next,node_modules,__pycache__,.build,.cache,compile_commands.json,*.db,*.o,.eslintrc.json
 autocmd FileType * setlocal ts=2 sts=2 sw=2 expandtab smartindent cindent
 autocmd FileType markdown setlocal spell spelllang=en,cjk
 autocmd FileType c setlocal noexpandtab cc=80
