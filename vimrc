@@ -40,6 +40,7 @@ set backspace=indent,eol,start
 "
 " Lists
 "
+autocmd FileType qf set nobuflisted
 let g:location_list_open = 0
 let g:quickfix_list_open = 0
 function! ToggleList(pfx)
