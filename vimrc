@@ -146,6 +146,17 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 " Auto location list
 let g:ycm_always_populate_location_list = 1
 
+"
+" Folding
+"
+set foldmethod=syntax
+autocmd BufWinLeave *.* mkview
+autocmd BufWinEnter *.* silent loadview
+map <leader>f za
+imap <leader>f <C-o>za
+map <leader>F zR
+imap <leader>F <C-o>zR
+
 
 "
 " Mapping
@@ -172,11 +183,6 @@ map <leader>s :split<CR>
 imap <leader>s <C-o>:split<CR>
 map <leader>S :vsplit<CR>
 imap <leader>S <C-o>:vsplit<CR>
-" Folding
-map <leader>f za
-imap <leader>f <C-o>za
-map <leader>F zR
-imap <leader>F <C-o>zR
 " Buffer
 map <leader>c :bd<CR>
 imap <leader>c <C-[>:bd<CR>
