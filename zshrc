@@ -11,6 +11,7 @@ ZSH_TMUX_FIXTERM_WITH_256COLOR=tmux-256color
 source $ZSH/oh-my-zsh.sh
 
 ## Alias
+alias vi='vim'
 alias rm='trash'
 cd() { builtin cd "$@"; ll; }
 alias pacman='sudo pacman'
