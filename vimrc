@@ -33,7 +33,7 @@ autocmd FileType make setlocal noexpandtab cc=80
 autocmd BufRead,BufNewFIle *.S setlocal filetype=asm
 autocmd BufRead,BufNewFIle *.s setlocal filetype=asm
 set autowriteall
-autocmd BufLeave,BufWinLeave,InsertLeave,CmdlineEnter * if &filetype != 'nerdtree' && &modifiable && bufname('%') != '' | silent! w | endif
+autocmd BufLeave,BufWinLeave,InsertLeave,CmdlineEnter * if &filetype != 'nerdtree' && &modifiable && filereadable(bufname('%')) | silent! w | endif
 set backspace=indent,eol,start
 
 
