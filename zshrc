@@ -18,6 +18,8 @@ alias pacman='sudo pacman'
 alias svi='sudo vim'
 alias systemctl='sudo systemctl'
 alias journalctl='sudo journalctl'
+alias ll='ls -lah'
+alias l='ls -lh'
 
 update() {
   pacman --noconfirm -Syu
