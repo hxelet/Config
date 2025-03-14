@@ -17,6 +17,7 @@ alias rm='trash'
 cd() { builtin cd "$@"; ll; }
 alias ll='ls -lah'
 alias l='ls -lh'
+alias python='python3'
 
 update() {
 	brew update
