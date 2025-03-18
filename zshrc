@@ -1,7 +1,6 @@
 ## Path
 CONFIG_PATH=$HOME/.config
-PATH="$HOME/.local/bin:/opt/homebrew/opt/macos-trash/bin:$PATH"
-eval "$(/opt/homebrew/bin/brew shellenv)"
+PATH="$HOME/.local/bin:$PATH"
 
 ## OMZ
 export ZSH="$HOME/.oh-my-zsh"
@@ -15,15 +14,19 @@ source $ZSH/oh-my-zsh.sh
 alias vi='vim'
 alias rm='trash'
 cd() { builtin cd "$@"; ll; }
+alias pacman='sudo pacman'
+alias svi='sudo vim'
+alias systemctl='sudo systemctl'
+alias journalctl='sudo journalctl'
 alias ll='ls -lah'
 alias l='ls -lh'
 alias python='python3'
 
+
 update() {
-	brew update
-	brew upgrade
-	command rm -f ~/.zcompdump
-	compinit
+  pacman --noconfirm -Syu
+  pacman --noconfirm -Qdtq | ifne sudo pacman -Rns -
+  yay -Sua
 
   vim -E +PluginUpdate +qall
 
@@ -41,9 +44,8 @@ keebuild() {
   pushd $QMK_PATH
   git pull
   command cp -a $CONFIG_PATH/keymap $KEYMAP_PATH
-  docker run --rm -it --privileged -v /dev:/dev -w /qmk_firmware -v $QMK_PATH:/qmk_firmware:z ghcr.io/qmk/qmk_cli make keyboardio/atreus:hxelet
+  sudo qmk flash -kb keyboardio/atreus -km hxelet
   command rm -rf $KEYMAP_PATH
-  command mv $QMK_PATH/*.hex ~/Downloads
   popd
 }
 
