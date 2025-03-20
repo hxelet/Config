@@ -38,68 +38,6 @@ set backspace=indent,eol,start
 
 
 "
-" Lists
-"
-autocmd FileType qf set nobuflisted
-let g:location_list_open = 0
-let g:quickfix_list_open = 0
-function! ToggleList(pfx)
-  if a:pfx == 'l'
-    if g:location_list_open
-      lclose
-      let g:location_list_open = 0
-    else
-      lopen
-      wincmd J
-      8wincmd _
-      wincmd p
-      let g:location_list_open = 1
-    endif
-  elseif a:pfx == 'c'
-    if g:quickfix_list_open
-      cclose
-      let g:quickfix_list_open = 0
-    else
-      copen
-      wincmd K
-      8wincmd _
-      wincmd p
-      let g:quickfix_list_open = 1
-    endif
-  endif
-endfunction
-map <leader>l :call ToggleList('c')<CR>
-imap <leader>l <C-o>:call ToggleList('c')<CR>
-map <leader>L :call ToggleList('l')<CR>
-imap <leader>L <C-o>:call ToggleList('l')<CR>
-
-function! LocationListHandler()
-  let l:is_empty = empty(getloclist(0))
-  if l:is_empty && g:location_list_open
-    lclose
-    let g:location_list_open = 0
-  elseif !l:is_empty && !g:location_list_open
-    lopen
-    8wincmd _
-    wincmd p
-    let g:location_list_open = 1
-  endif
-endfunction
-autocmd CursorHold,CursorHoldI * call LocationListHandler()
-
-
-"
-" Colours
-"
-if filereadable(expand("$HOME/.config/tinted-theming/set_theme.vim"))
-	let base16_colorspace=256
-	let base16colorspace=256
-	let tinted_colorspace=256
-	source $HOME/.config/tinted-theming/set_theme.vim
-endif
-
-
-"
 " Nerdtree
 "
 map <leader><Space> :NERDTreeToggle<CR>
@@ -120,6 +58,82 @@ autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
 " If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
 autocmd BufEnter * if winnr() == winnr('h') && bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
     \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+
+
+"
+" Lists
+"
+autocmd FileType qf set nobuflisted
+let g:location_list_open = 0
+let g:quickfix_list_open = 0
+function! OpenList(pfx)
+  if a:pfx == 'l'
+    lopen
+    wincmd J
+    8wincmd _
+    wincmd p
+    let g:location_list_open = 1
+  elseif a:pfx == 'c'
+    copen
+    wincmd K
+    8wincmd _
+    wincmd p
+    let g:quickfix_list_open = 1
+  endif
+endfunction
+
+function! ToggleList(pfx)
+  if a:pfx == 'l'
+    if g:location_list_open
+      lclose
+      let g:location_list_open = 0
+    else
+      call OpenList(a:pfx)
+    endif
+  elseif a:pfx == 'c'
+    if g:quickfix_list_open
+      cclose
+      let g:quickfix_list_open = 0
+    else
+      call OpenList(a:pfx)
+    endif
+  endif
+endfunction
+map <leader>L :call ToggleList('c')<CR>
+imap <leader>L <C-o>:call ToggleList('c')<CR>
+map <leader>l :call ToggleList('l')<CR>
+imap <leader>l <C-o>:call ToggleList('l')<CR>
+
+function! CloseBuf()
+  cclose
+  lclose
+  let g:location_list_open = 0
+  bdelete
+endfunction
+
+autocmd BufWinEnter * if g:quickfix_list_open && &modifiable && &filetype != 'nerdtree' | call OpenList('c') | endif
+
+function! LocationListHandler()
+  let l:is_empty = empty(getloclist(0))
+  if l:is_empty && g:location_list_open
+    lclose
+    let g:location_list_open = 0
+  elseif !l:is_empty && !g:location_list_open
+    call OpenList('l')
+  endif
+endfunction
+autocmd CursorHold,CursorHoldI * call LocationListHandler()
+
+
+"
+" Colours
+"
+if filereadable(expand("$HOME/.config/tinted-theming/set_theme.vim"))
+	let base16_colorspace=256
+	let base16colorspace=256
+	let tinted_colorspace=256
+	source $HOME/.config/tinted-theming/set_theme.vim
+endif
 
 
 "
@@ -189,8 +203,8 @@ imap <leader>s <C-o>:split<CR>
 map <leader>S :vsplit<CR>
 imap <leader>S <C-o>:vsplit<CR>
 " Buffer
-map <leader>c :bd<CR>
-imap <leader>c <C-[>:bd<CR>
+map <leader>c :call CloseBuf()<CR>
+imap <leader>c <C-[>:call CloseBuf()<CR>
 map <leader>h :bprevious<CR>
 imap <leader>h <C-o>:bprevious<CR>
 map <leader>. :bnext<CR>
@@ -224,9 +238,13 @@ imap <leader>\| <c-w>\|
 " Etc
 map <leader>m :noh<CR>
 imap <leader>m <C-o>:noh<CR>
-map <leader>n :cn<CR>
-imap <leader>n <C-o>:cn<CR>
-map <leader>p :cp<CR>
-imap <leader>p <C-o>:cp<CR>
+map <leader>n :lnext<CR>
+imap <leader>n <C-o>:lnext<CR>
+map <leader>N :cnext<CR>
+imap <leader>N <C-o>:cnext<CR>
+map <leader>p :lprevious<CR>
+imap <leader>p <C-o>:lprevious<CR>
+map <leader>P :cprevious<CR>
+imap <leader>P <C-o>:cprevious<CR>
 map <leader>z <C-o>
 imap <leader>z <C-o><C-o>
