@@ -13,7 +13,7 @@ source $ZSH/oh-my-zsh.sh
 ## Alias
 alias vi='vim'
 alias rm='trash'
-cd() { builtin cd "$@"; ll; }
+alias ls="${aliases[ls]} --group-directories-first"
 alias pacman='sudo pacman'
 alias svi='sudo vim'
 alias systemctl='sudo systemctl'
@@ -21,6 +21,7 @@ alias journalctl='sudo journalctl'
 alias ll='ls -lah'
 alias l='ls -lh'
 alias python='python3'
+cd() { builtin cd "$@"; l; }
 
 
 update() {
