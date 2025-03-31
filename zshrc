@@ -14,7 +14,6 @@ source $ZSH/oh-my-zsh.sh
 ## Alias
 alias vi='vim'
 alias rm='trash'
-alias ls="${aliases[ls]} --group-directories-first"
 alias ll='ls -lah'
 alias l='ls -lh'
 alias python='python3'
