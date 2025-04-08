@@ -1,6 +1,6 @@
 ## Path
 CONFIG_PATH=$HOME/.config
-PATH="$HOME/.local/bin:/opt/homebrew/opt/macos-trash/bin:$PATH"
+PATH="$HOME/.local/bin:/opt/homebrew/opt/macos-trash/bin:/opt/homebrew/opt/make/libexec/gnubin:$PATH"
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 ## OMZ
